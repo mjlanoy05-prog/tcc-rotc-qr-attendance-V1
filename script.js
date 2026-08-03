@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbxvMZJ7aqYOj3mWzO2arKOWdmP6r2LNPEwHOPWpJlh4CrBeMBRlqJ9XhzjkalcKXL89/exec";
+"https://script.google.com/macros/s/AKfycbwpH_efZrp7GgVINdXdJMZPPshb_TR4ywIIgIN6He2Mz7s0tjvyPfSd_xYj5sw5UWo-/exec";
 
 let currentQR = "";
 
