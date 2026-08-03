@@ -1,23 +1,37 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbwpH_efZrp7GgVINdXdJMZPPshb_TR4ywIIgIN6He2Mz7s0tjvyPfSd_xYj5sw5UWo-/exec";
+"https://script.google.com/macros/s/AKfycbwxiFbd9xOgUu_AWNDJbpCQuNyRz6BHXVrcx5qtTSRxriY-2W8t9TyZdI_1tTvKxpML/exec";
+
 
 let currentQR = "";
+
+
+// WHEN QR IS DETECTED
 
 function qrSuccess(decodedText){
 
     currentQR = decodedText.trim();
 
+
     document.getElementById("status").innerHTML =
-    "Detected : " + currentQR;
+    "Detected QR: " + currentQR;
+
+
+    // AUTOMATICALLY RECORD ATTENDANCE
 
     sendAttendance();
 
 }
 
+
+
+// SEND ATTENDANCE
+
 function sendAttendance(){
 
-    let day =
+
+    let selectedDay =
     document.getElementById("attendanceDay").value;
+
 
     fetch(API_URL,{
 
@@ -27,34 +41,58 @@ function sendAttendance(){
 
             qr_id:currentQR,
 
-            day:day
+            day:selectedDay
 
         })
 
     })
 
-    .then(r=>r.json())
+
+    .then(response=>response.json())
+
 
     .then(data=>{
 
-        document.getElementById("result").innerHTML=
+
+        document.getElementById("result").innerHTML =
 
         `
+
         <h2>${data.message}</h2>
 
-        <h3>${data.name||""}</h3>
+        <h3>${data.name || ""}</h3>
 
-        <p>${data.course||""}</p>
+        <p>
+        Course: ${data.course || ""}
+        </p>
 
-        <p>${data.dayName||""}</p>
+        <p>
+        ${data.dayName || ""}
+        </p>
 
         `;
 
+
+    })
+
+
+    .catch(error=>{
+
+        document.getElementById("result").innerHTML =
+        "Error connecting to server";
+
     });
+
 
 }
 
+
+
+// START QR CAMERA
+
+
 let scanner =
+
 new Html5QrcodeScanner(
 
 "reader",
@@ -69,40 +107,108 @@ qrbox:300
 
 );
 
+
 scanner.render(qrSuccess);
+
+
+
+
+
+// CHECK ATTENDANCE BUTTON
+
 
 function checkAttendance(){
 
+
     if(currentQR==""){
 
-        alert("Scan QR first.");
+        alert("Please scan QR first");
 
         return;
 
     }
 
-    fetch(API_URL+
-    "?action=check&qr_id="+currentQR)
 
-    .then(r=>r.json())
+
+    fetch(
+
+        API_URL+
+        "?action=check&qr_id="+
+        encodeURIComponent(currentQR)
+
+    )
+
+
+    .then(response=>response.json())
+
 
     .then(data=>{
 
-        let html="";
 
-        html+="<h2>"+data.name+"</h2>";
-        html+="<p>"+data.course+"</p><hr>";
+        if(data.message){
 
-        for(let i=1;i<=17;i++){
+            document.getElementById("result").innerHTML =
+            `
+            <h2>${data.message}</h2>
+            `;
 
-            html+="DAY "+i+" : "+
-            data["day"+i]+"<br>";
+            return;
 
         }
 
-        document.getElementById("result").innerHTML=
-        html;
+
+
+        let attendance="";
+
+
+        for(let i=1;i<=17;i++){
+
+
+            attendance +=
+
+            `
+
+            <p>
+            DAY ${i}: 
+            <b>${data["day"+i]}</b>
+            </p>
+
+            `;
+
+
+        }
+
+
+
+        document.getElementById("result").innerHTML =
+
+
+        `
+
+        <h2>${data.name}</h2>
+
+        <h3>${data.course}</h3>
+
+        <hr>
+
+        ${attendance}
+
+
+        `;
+
+
+
+    })
+
+
+    .catch(error=>{
+
+
+        document.getElementById("result").innerHTML =
+        "Unable to check attendance";
+
 
     });
+
 
 }
