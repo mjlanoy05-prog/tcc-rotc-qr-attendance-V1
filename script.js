@@ -1,5 +1,5 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyJI-e3bzE7VpvZt65MtF9AO067IpYK_CeAwy-shNGmvafI3NDSjlW4cl67Uvjwyz16/exec";
+"https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec";
 
 
 
@@ -8,10 +8,10 @@ let currentQR = "";
 
 
 
-
-// QR SCANNED
+// WHEN QR IS SCANNED
 
 function qrSuccess(decodedText){
+
 
 
 currentQR =
@@ -25,6 +25,7 @@ document
 "Detected: "
 +
 currentQR;
+
 
 
 
@@ -44,10 +45,11 @@ function sendAttendance(){
 
 
 
-let selectedDay =
+let day =
 document
 .getElementById("daySelect")
 .value;
+
 
 
 
@@ -59,17 +61,20 @@ body:JSON.stringify({
 
 qr_id:currentQR,
 
-day:selectedDay
+day:day
 
 })
 
 })
 
 
-.then(response=>response.json())
+
+.then(res=>res.json())
+
 
 
 .then(data=>{
+
 
 
 document
@@ -79,31 +84,20 @@ document
 
 `
 
-<h2>
-${data.message}
-</h2>
+<h2>${data.message}</h2>
 
+<p>${data.name || ""}</p>
 
-<p>
-${data.name || ""}
-</p>
+<p>${data.course || ""}</p>
 
-
-<p>
-${data.course || ""}
-</p>
-
-
-<p>
-${data.day || ""}
-</p>
-
+<p>${data.day || ""}</p>
 
 `;
 
 
 
 });
+
 
 
 }
@@ -165,7 +159,7 @@ return;
 
 
 
-let selectedDay =
+let day =
 document
 .getElementById("daySelect")
 .value;
@@ -176,23 +170,26 @@ document
 
 fetch(
 
-API_URL+
+API_URL
++
 "?action=check&qr_id="
 +
 currentQR
 +
 "&day="
 +
-selectedDay
+day
 
 )
 
 
 
-.then(response=>response.json())
+.then(res=>res.json())
+
 
 
 .then(data=>{
+
 
 
 document
@@ -200,20 +197,14 @@ document
 .innerHTML =
 
 
+
 `
 
-<h2>
-${data.name || ""}
-</h2>
+<h2>${data.name || ""}</h2>
 
-
-<p>
-${data.course || ""}
-</p>
-
+<p>${data.course || ""}</p>
 
 <hr>
-
 
 <p>
 ${data.day || ""}
@@ -221,12 +212,12 @@ ${data.day || ""}
 ${data.status || ""}
 </p>
 
-
 `;
 
 
 
 });
+
 
 
 }
