@@ -24,7 +24,6 @@ TCC ROTC Attendance
 
 
 
-<!-- ADMIN LOGIN -->
 
 <div id="login">
 
@@ -34,8 +33,8 @@ ADMIN LOGIN
 </h1>
 
 
+
 <input 
-type="text" 
 id="username"
 placeholder="Username">
 
@@ -44,8 +43,8 @@ placeholder="Username">
 
 
 <input 
-type="password" 
 id="password"
+type="password"
 placeholder="Password">
 
 
@@ -68,10 +67,8 @@ LOGIN
 
 
 
-<!-- ATTENDANCE SYSTEM -->
-
-
 <div id="attendance" style="display:none;">
+
 
 
 <h1>
@@ -84,12 +81,125 @@ QR ATTENDANCE
 </h2>
 
 
+
+
+<label>
+SELECT TRAINING DAY
+</label>
+
+
+
+<br>
+
+
+
+<select id="daySelect">
+
+
+<option value="4">
+DAY 1
+</option>
+
+
+<option value="5">
+DAY 2
+</option>
+
+
+<option value="6">
+DAY 3
+</option>
+
+
+<option value="7">
+DAY 4
+</option>
+
+
+<option value="8">
+DAY 5
+</option>
+
+
+<option value="9">
+DAY 6
+</option>
+
+
+<option value="10">
+DAY 7
+</option>
+
+
+<option value="11">
+DAY 8
+</option>
+
+
+<option value="12">
+DAY 9
+</option>
+
+
+<option value="13">
+DAY 10
+</option>
+
+
+<option value="14">
+DAY 11
+</option>
+
+
+<option value="15">
+DAY 12
+</option>
+
+
+<option value="16">
+DAY 13
+</option>
+
+
+<option value="17">
+DAY 14
+</option>
+
+
+<option value="18">
+DAY 15
+</option>
+
+
+<option value="19">
+DAY 16
+</option>
+
+
+<option value="20">
+DAY 17
+</option>
+
+
+
+</select>
+
+
+
+
+<br><br>
+
+
+
+
 <div id="reader"></div>
+
 
 
 <h3 id="status">
 Waiting for scan...
 </h3>
+
 
 
 
@@ -105,12 +215,13 @@ LOGOUT
 
 
 
+
 <div id="result"></div>
 
 
 
-</div>
 
+</div>
 
 
 
