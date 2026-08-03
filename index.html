@@ -2,12 +2,10 @@
 
 <html>
 
-
 <head>
 
-
 <title>
-TCC ROTC QR ATTENDANCE
+TCC ROTC Attendance
 </title>
 
 
@@ -22,10 +20,49 @@ TCC ROTC QR ATTENDANCE
 </head>
 
 
-
-
 <body>
 
+
+<div id="login">
+
+<h1>
+ADMIN LOGIN
+</h1>
+
+
+<input 
+type="text" 
+id="username"
+placeholder="Username">
+
+
+<br><br>
+
+
+<input 
+type="password" 
+id="password"
+placeholder="Password">
+
+
+<br><br>
+
+
+<button onclick="login()">
+LOGIN
+</button>
+
+
+<p id="loginStatus"></p>
+
+
+</div>
+
+
+
+
+
+<div id="attendance" style="display:none;">
 
 
 <h1>
@@ -38,41 +75,7 @@ QR ATTENDANCE
 </h2>
 
 
-
-
-<select id="daySelect">
-
-
-<option value="1">DAY 1</option>
-<option value="2">DAY 2</option>
-<option value="3">DAY 3</option>
-<option value="4">DAY 4</option>
-<option value="5">DAY 5</option>
-<option value="6">DAY 6</option>
-<option value="7">DAY 7</option>
-<option value="8">DAY 8</option>
-<option value="9">DAY 9</option>
-<option value="10">DAY 10</option>
-<option value="11">DAY 11</option>
-<option value="12">DAY 12</option>
-<option value="13">DAY 13</option>
-<option value="14">DAY 14</option>
-<option value="15">DAY 15</option>
-<option value="16">DAY 16</option>
-<option value="17">DAY 17</option>
-
-
-</select>
-
-
-
-
-<br><br>
-
-
-
 <div id="reader"></div>
-
 
 
 <h3 id="status">
@@ -81,24 +84,27 @@ Waiting for scan...
 
 
 
-
 <button onclick="checkAttendance()">
 CHECK ATTENDANCE
 </button>
 
 
+<button onclick="logout()">
+LOGOUT
+</button>
 
 
 <div id="result"></div>
 
 
 
+</div>
+
+
 
 <script src="script.js"></script>
 
 
-
 </body>
-
 
 </html>
