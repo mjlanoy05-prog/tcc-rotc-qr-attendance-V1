@@ -1,14 +1,105 @@
 const API_URL =
-"https://script.google.com/macros/s/AKfycbyl9O2ej6v0vUabJj10fuw36O-qj0czsBAgUAjvFizvT_3vzPy74JeQCEBkj-JCrWOy/exec";
+"https://script.google.com/macros/s/AKfycbxvMZJ7aqYOj3mWzO2arKOWdmP6r2LNPEwHOPWpJlh4CrBeMBRlqJ9XhzjkalcKXL89/exec";
+
+
+
+
+
+// ======================
+// ADMIN LOGIN
+// ======================
+
+
+const ADMIN_USERNAME = "admin";
+
+const ADMIN_PASSWORD = "12345";
+
+
+
+function login(){
+
+
+
+let username =
+document.getElementById("username").value;
+
+
+
+let password =
+document.getElementById("password").value;
+
+
+
+
+if(
+username === ADMIN_USERNAME &&
+password === ADMIN_PASSWORD
+
+){
+
+
+
+document.getElementById("login").style.display="none";
+
+
+document.getElementById("attendance").style.display="block";
+
+
+
+startScanner();
+
+
+
+}
+
+else{
+
+
+document.getElementById("loginStatus").innerHTML =
+"Invalid Username or Password";
+
+
+}
+
+
+
+}
+
+
+
+
+function logout(){
+
+
+location.reload();
+
+
+}
+
+
+
+
+
+
+
+
+
+// ======================
+// QR ATTENDANCE
+// ======================
 
 
 
 let currentQR = "";
 
+let scanner;
 
 
 
-// WHEN QR IS SCANNED
+
+
+// QR SCANNED
+
 
 function qrSuccess(decodedText){
 
@@ -28,7 +119,6 @@ currentQR;
 
 
 
-
 sendAttendance();
 
 
@@ -39,17 +129,13 @@ sendAttendance();
 
 
 
-// SEND ATTENDANCE
+
+
+
+// SEND QR TO APPS SCRIPT
+
 
 function sendAttendance(){
-
-
-
-let day =
-document
-.getElementById("daySelect")
-.value;
-
 
 
 
@@ -59,22 +145,17 @@ method:"POST",
 
 body:JSON.stringify({
 
-qr_id:currentQR,
-
-day:day
+qr_id:currentQR
 
 })
 
 })
 
 
-
-.then(res=>res.json())
-
+.then(response=>response.json())
 
 
 .then(data=>{
-
 
 
 document
@@ -86,11 +167,16 @@ document
 
 <h2>${data.message}</h2>
 
-<p>${data.name || ""}</p>
 
-<p>${data.course || ""}</p>
+<p>
+${data.name || ""}
+</p>
 
-<p>${data.day || ""}</p>
+
+<p>
+${data.course || ""}
+</p>
+
 
 `;
 
@@ -108,10 +194,15 @@ document
 
 
 
-// START CAMERA
+
+// START CAMERA AFTER LOGIN
 
 
-let scanner =
+function startScanner(){
+
+
+
+scanner =
 new Html5QrcodeScanner(
 
 "reader",
@@ -132,12 +223,16 @@ scanner.render(qrSuccess);
 
 
 
+}
 
 
 
 
 
-// CHECK ATTENDANCE
+
+
+
+// CHECK ATTENDANCE BUTTON
 
 
 function checkAttendance(){
@@ -147,45 +242,33 @@ function checkAttendance(){
 if(currentQR==""){
 
 
+
 alert(
 "Please scan QR first"
 );
 
 
+
 return;
+
 
 
 }
 
 
 
-let day =
-document
-.getElementById("daySelect")
-.value;
-
-
-
-
 
 fetch(
 
-API_URL
-+
+API_URL+
 "?action=check&qr_id="
 +
 currentQR
-+
-"&day="
-+
-day
 
 )
 
 
-
-.then(res=>res.json())
-
+.then(response=>response.json())
 
 
 .then(data=>{
@@ -197,20 +280,26 @@ document
 .innerHTML =
 
 
-
 `
 
-<h2>${data.name || ""}</h2>
+<h2>
+${data.name}
+</h2>
 
-<p>${data.course || ""}</p>
+
+<p>
+${data.course}
+</p>
+
 
 <hr>
 
+
 <p>
-${data.day || ""}
-:
-${data.status || ""}
+DAY 1:
+${data.day1}
 </p>
+
 
 `;
 
