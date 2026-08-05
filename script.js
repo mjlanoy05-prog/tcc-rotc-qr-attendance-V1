@@ -3,19 +3,13 @@ const API_URL =
 
 
 
-
-// ======================
-// ADMIN LOGIN
-// ======================
-
-
 const ADMIN_USERNAME = "admin";
 
 const ADMIN_PASSWORD = "12345";
 
 
 
-let currentQR="";
+let currentQR = "";
 
 let scanner;
 
@@ -30,7 +24,6 @@ let username =
 document.getElementById("username").value;
 
 
-
 let password =
 document.getElementById("password").value;
 
@@ -38,8 +31,8 @@ document.getElementById("password").value;
 
 
 if(
-username==ADMIN_USERNAME &&
-password==ADMIN_PASSWORD
+username == ADMIN_USERNAME &&
+password == ADMIN_PASSWORD
 ){
 
 
@@ -72,11 +65,10 @@ document.getElementById("loginStatus").innerHTML =
 
 
 
+
 function logout(){
 
-
 location.reload();
-
 
 }
 
@@ -86,13 +78,7 @@ location.reload();
 
 
 
-// ======================
-// START QR CAMERA
-// ======================
-
-
 function startScanner(){
-
 
 
 scanner =
@@ -115,7 +101,6 @@ qrbox:300
 scanner.render(qrSuccess);
 
 
-
 }
 
 
@@ -123,11 +108,6 @@ scanner.render(qrSuccess);
 
 
 
-
-
-// ======================
-// QR DETECTED
-// ======================
 
 
 function qrSuccess(decodedText){
@@ -139,15 +119,12 @@ decodedText.trim();
 
 
 
-document
-.getElementById("status")
-.innerHTML =
+document.getElementById("status").innerHTML =
 "Detected: "+currentQR;
 
 
 
 sendAttendance();
-
 
 
 }
@@ -159,19 +136,12 @@ sendAttendance();
 
 
 
-// ======================
-// SAVE ATTENDANCE
-// ======================
-
-
 function sendAttendance(){
 
 
 
 let selectedDay =
-document
-.getElementById("daySelect")
-.value;
+document.getElementById("daySelect").value;
 
 
 
@@ -179,9 +149,7 @@ document
 
 fetch(API_URL,{
 
-
 method:"POST",
-
 
 body:JSON.stringify({
 
@@ -200,14 +168,10 @@ attendance_column:selectedDay
 .then(response=>response.json())
 
 
-
 .then(data=>{
 
 
-
-document
-.getElementById("result")
-.innerHTML=
+document.getElementById("result").innerHTML =
 
 
 `
@@ -218,12 +182,12 @@ ${data.message}
 
 
 <p>
-${data.name || ""}
+Name: ${data.name || ""}
 </p>
 
 
 <p>
-${data.course || ""}
+Gender: ${data.gender || ""}
 </p>
 
 
@@ -242,11 +206,6 @@ ${data.course || ""}
 
 
 
-
-
-// ======================
-// CHECK ATTENDANCE
-// ======================
 
 
 function checkAttendance(){
@@ -270,10 +229,9 @@ return;
 
 
 
+
 let selectedDay =
-document
-.getElementById("daySelect")
-.value;
+document.getElementById("daySelect").value;
 
 
 
@@ -281,6 +239,7 @@ document
 
 let dayNumber =
 Number(selectedDay)-3;
+
 
 
 
@@ -300,20 +259,14 @@ selectedDay
 
 )
 
-
-
 .then(response=>response.json())
-
 
 
 .then(data=>{
 
 
 
-document
-.getElementById("result")
-.innerHTML=
-
+document.getElementById("result").innerHTML =
 
 
 `
@@ -324,16 +277,19 @@ ${data.name || ""}
 
 
 <p>
-${data.course || ""}
+Gender: ${data.gender || ""}
 </p>
+
 
 
 <hr>
 
 
+
 <h3>
 DAY ${dayNumber}
 </h3>
+
 
 
 <h2>
